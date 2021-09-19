@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/teal_200"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tvBikeId"
+        android:layout_centerHorizontal="true"
+        android:textSize="30dp"
+        android:layout_margin="20dp"
+        android:text="BIKE B000"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+
+    <ImageView
+        android:id="@+id/avaBike"
+        android:layout_width= "match_parent"
+        android:layout_height="250dp"
+        app:srcCompat="@drawable/avabike"/>
+
+    <TextView
+        android:id="@+id/tvPin"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/avaBike"
+        android:text="Enter the pin"
+        android:textSize="25dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"></TextView>
+
+    <EditText
+        android:id="@+id/editTextPin"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvPin"
+        android:ems="14"
+        android:text="" />
+
+    <Button
+        android:id="@+id/btnCheck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextPin"
+        android:text="OK" />
+
+</RelativeLayout>
