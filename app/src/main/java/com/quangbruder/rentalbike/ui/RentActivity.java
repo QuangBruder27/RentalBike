@@ -1,6 +1,8 @@
-package com.quangbruder.rentalbike;
+package com.quangbruder.rentalbike.ui;
 
 
+import static com.quangbruder.rentalbike.Helper.distance;
+import static com.quangbruder.rentalbike.Helper.isRunning;
 import static com.quangbruder.rentalbike.Helper.retrieveBikeID;
 import static com.quangbruder.rentalbike.Helper.retrieveToken;
 
@@ -31,6 +33,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.quangbruder.rentalbike.Helper;
+import com.quangbruder.rentalbike.R;
+import com.quangbruder.rentalbike.SendLocationTimer;
+import com.quangbruder.rentalbike.URLs;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +54,7 @@ public class RentActivity extends AppCompatActivity {
     Button btnStop;
     String bikeId;
     String bookingId;
-    float distance = 0.0F;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,20 +85,22 @@ public class RentActivity extends AppCompatActivity {
 
     }
 
+    // Send PUT-Request to Server
     public void endJourney(){
         chronometer.stop();
         Toast.makeText(getApplicationContext(), "Timed: "+chronometer.getText(), Toast.LENGTH_SHORT).show();
-        timer.cancel();
+        if(null != timer) timer.cancel();
 
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("bikeId",retrieveBikeID(getApplicationContext()));
             jsonObject.put("id",Integer.valueOf(bookingId));
-            jsonObject.put("endTime",LocationHelper.simpleDateFormat.format(new Timestamp(System.currentTimeMillis())));
+            jsonObject.put("endTime", Helper.simpleDateFormat.format(new Timestamp(System.currentTimeMillis())));
             jsonObject.put("distance",(Integer)Math.round(distance));
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        System.out.println("JSON Object: "+jsonObject.toString());
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -102,13 +110,15 @@ public class RentActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         System.out.println("Response is: "+ response);
-
+                        Toast.makeText(getApplicationContext(), "Thanks for the journey", Toast.LENGTH_SHORT).show();
+                        isRunning = false;
+                        gotoMainActivity();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println(error.toString());
-                Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_LONG).show();
+                System.out.println("End erro: "+error.toString());
+                Toast.makeText(getApplicationContext(), "End failed. Please try again", Toast.LENGTH_LONG).show();
             }
         }){
             @Override
@@ -137,7 +147,11 @@ public class RentActivity extends AppCompatActivity {
         timer.schedule(new SendLocationTimer(url,getApplicationContext(),bikeId,tvDistance,fusedLocationProviderClient,cancellationTokenSource,this),0,x);
     }
 
-
+    public void gotoMainActivity(){
+        finish();
+        Intent myIntent = new Intent(this, MainActivity.class);
+        startActivity(myIntent);
+    }
 
 
 

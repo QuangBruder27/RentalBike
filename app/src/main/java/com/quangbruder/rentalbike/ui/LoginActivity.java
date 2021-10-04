@@ -1,4 +1,4 @@
-package com.quangbruder.rentalbike;
+package com.quangbruder.rentalbike.ui;
 
 import static com.quangbruder.rentalbike.Helper.storeBikeId;
 import static com.quangbruder.rentalbike.Helper.storeToken;
@@ -21,6 +21,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.quangbruder.rentalbike.R;
+import com.quangbruder.rentalbike.URLs;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    // Send POST request to login and get the token
     public void bikeLogin(Context context, String bikeId,String password){
         Map<String,String> map = new HashMap<>();
         map.put("bikeId",bikeId);

@@ -1,7 +1,6 @@
-package com.quangbruder.rentalbike;
+package com.quangbruder.rentalbike.ui;
 
-import static android.content.ContentValues.TAG;
-
+import static com.quangbruder.rentalbike.Helper.isRunning;
 import static com.quangbruder.rentalbike.Helper.retrieveBikeID;
 import static com.quangbruder.rentalbike.Helper.retrieveToken;
 import static com.quangbruder.rentalbike.Helper.storeBikeId;
@@ -14,12 +13,9 @@ import androidx.core.content.ContextCompat;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,14 +32,13 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.CancellationTokenSource;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.quangbruder.rentalbike.R;
+import com.quangbruder.rentalbike.SendLocationTimer;
+import com.quangbruder.rentalbike.URLs;
 
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Send GET request to check the enter pin
     public void pinCheck(Context context,String bikeId, String pin){
         System.out.println("PIN check func: "+pin);
         String url = URLs.URL_BIKE_CHECK_PIN+"?bikeId="+bikeId+"&payloadPin="+pin;
@@ -98,13 +94,14 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println("Booking Id from Server: "+response);
                         bookingId = response;
                         timer.cancel();
+                        isRunning =true;
                         gotoRentActivity();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error.toString());
-                Toast.makeText(context, "Pin is wrong", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Please try again", Toast.LENGTH_LONG).show();
             }
         }){
 
