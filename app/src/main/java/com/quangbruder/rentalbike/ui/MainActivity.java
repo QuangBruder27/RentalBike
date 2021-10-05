@@ -4,7 +4,6 @@ import static com.quangbruder.rentalbike.Helper.distance;
 import static com.quangbruder.rentalbike.Helper.isRunning;
 import static com.quangbruder.rentalbike.Helper.retrieveBikeID;
 import static com.quangbruder.rentalbike.Helper.retrieveToken;
-import static com.quangbruder.rentalbike.Helper.storeBikeId;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

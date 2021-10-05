@@ -6,14 +6,10 @@ import static com.quangbruder.rentalbike.Helper.isRunning;
 import static com.quangbruder.rentalbike.Helper.retrieveBikeID;
 import static com.quangbruder.rentalbike.Helper.retrieveToken;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -26,13 +22,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.CancellationTokenSource;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.quangbruder.rentalbike.Helper;
 import com.quangbruder.rentalbike.R;
 import com.quangbruder.rentalbike.SendLocationTimer;
@@ -45,7 +38,6 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class RentActivity extends AppCompatActivity {
 
