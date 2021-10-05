@@ -85,7 +85,9 @@ public class RentActivity extends AppCompatActivity {
 
     }
 
-    // Send PUT-Request to Server
+    /**
+     * Send PUT-Request to end the journey
+     */
     public void endJourney(){
         chronometer.stop();
         Toast.makeText(getApplicationContext(), "Timed: "+chronometer.getText(), Toast.LENGTH_SHORT).show();
@@ -142,6 +144,12 @@ public class RentActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
     Timer timer;
+
+    /**
+     * Create time schedule for send and update location
+     * @param url
+     * @param x
+     */
     public void sendAndUpdateLocation(String url, int x){
         timer = new Timer();
         timer.schedule(new SendLocationTimer(url,getApplicationContext(),bikeId,tvDistance,fusedLocationProviderClient,cancellationTokenSource,this),0,x);

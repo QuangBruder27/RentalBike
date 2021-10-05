@@ -49,7 +49,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    // Send POST request to login and get the token
+    /**
+     * Send POST request to login and get the token
+     * @param context
+     * @param bikeId
+     * @param password
+     */
     public void bikeLogin(Context context, String bikeId,String password){
         Map<String,String> map = new HashMap<>();
         map.put("bikeId",bikeId);

@@ -1,5 +1,6 @@
 package com.quangbruder.rentalbike.ui;
 
+import static com.quangbruder.rentalbike.Helper.distance;
 import static com.quangbruder.rentalbike.Helper.isRunning;
 import static com.quangbruder.rentalbike.Helper.retrieveBikeID;
 import static com.quangbruder.rentalbike.Helper.retrieveToken;
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         btnCheck = findViewById(R.id.btnCheck);
         tvBikeId = findViewById(R.id.tvBikeId);
 
-        //storeBikeId(this,"");
         // Construct a FusedLocationProviderClient.
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -79,7 +79,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // Send GET request to check the enter pin
+    /**
+     * Send GET request to check the enter pin
+     * @param context
+     * @param bikeId
+     * @param pin
+     */
     public void pinCheck(Context context,String bikeId, String pin){
         System.out.println("PIN check func: "+pin);
         String url = URLs.URL_BIKE_CHECK_PIN+"?bikeId="+bikeId+"&payloadPin="+pin;
@@ -95,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         bookingId = response;
                         timer.cancel();
                         isRunning =true;
+                        distance = 0.0F;
                         gotoRentActivity();
                     }
                 }, new Response.ErrorListener() {
@@ -117,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Set user interface
+     */
     public void setUI(){
         tvBikeId.setText("BIKE: "+retrieveBikeID(getApplicationContext()));
         btnCheck.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +153,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     Timer timer;
+
+    /**
+     * Create time schedule for send location
+     * @param url
+     * @param x
+     */
     public void sendCurrentLocation(String url, int x){
         timer = new Timer();
         timer.schedule(new SendLocationTimer(url,getApplicationContext(),retrieveBikeID(getApplicationContext()),null,fusedLocationProviderClient,cancellationTokenSource,this),0,x);
